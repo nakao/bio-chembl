@@ -6,25 +6,27 @@
 
 REST API Client
 
-```# Show a web service URI
-   BioChEMBL::REST::ChEMBL_URI.compound("CHEMBL1")
+```ruby
+    # Show a web service URI
+    BioChEMBL::REST::ChEMBL_URI.compound("CHEMBL1")
 
-   # GET the XML data of the ChEMBL ID CHEMBL1 
-   api = BioChEMBL::REST.new
-   api.compound("CHEMBL1")
+    # GET the XML data of the ChEMBL ID CHEMBL1 
+    api = BioChEMBL::REST.new
+    api.compound("CHEMBL1")
 ```
 
 Parser and container
 
-```cpd = BioChEMBL::Compound.find("CHEMBL1")
-   cpd.chemblId #=> "CHEMBL1"
-   cpd.slimes
+```ruby
+    cpd = BioChEMBL::Compound.find("CHEMBL1")
+    cpd.chemblId #=> "CHEMBL1"
+    cpd.slimes
    
-   ba = cpd.bioactivities
+    ba = cpd.bioactivities
    
-   assay = BioChEMBL::Assay.find("CHEMBL1217643")
-   assay.bioactivities[0].target
-   assay.bioactivities[0].parent_compound
+    assay = BioChEMBL::Assay.find("CHEMBL1217643")
+    assay.bioactivities[0].target
+    assay.bioactivities[0].parent_compound
 ```
 
 Note: this software is under active development!
