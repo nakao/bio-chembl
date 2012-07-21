@@ -1,7 +1,9 @@
 require 'helper'
+require 'bio-chembl/chembl.rb'
 
-class TestBioChembl < Test::Unit::TestCase
-  should "probably rename this file and start testing for real" do
-    flunk "hey buddy, you should probably rename this file and start testing for real"
+class TestBioChEMBL < Test::Unit::TestCase
+  def test_website
+    assert_equal("https://www.ebi.ac.uk/chembl/", BioChEMBL.website)
   end
 end
+

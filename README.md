@@ -2,7 +2,28 @@
 
 [![Build Status](https://secure.travis-ci.org/nakao/bioruby-chembl.png)](http://travis-ci.org/nakao/bioruby-chembl)
 
-Full description goes here
+ChEMBL REST Web Service API client, parser and container classes. 
+
+REST API Client
+```# Show a web service URI
+   BioChEMBL::REST::ChEMBL_URI.compound("CHEMBL1")
+
+   # GET the XML data of the ChEMBL ID CHEMBL1 
+   api = BioChEMBL::REST.new
+   api.compound("CHEMBL1")
+```
+
+Parser and container
+```cpd = BioChEMBL::Compound.find("CHEMBL1")
+   cpd.chemblId #=> "CHEMBL1"
+   cpd.slimes
+   
+   ba = cpd.bioactivities
+   
+   assay = BioChEMBL::Assay.find("CHEMBL1217643")
+   assay.bioactivities[0].target
+   assay.bioactivities[0].parent_compound
+```
 
 Note: this software is under active development!
 
@@ -29,6 +50,13 @@ how to contribute, see
   http://github.com/nakao/bioruby-chembl
 
 The BioRuby community is on IRC server: irc.freenode.org, channel: #bioruby.
+
+## Todo list
+
+* BioChEMBL::Target.find_by_refesq method.
+* JSON output support (parser and address).
+* ChEMBL RDF support.
+* Local REST API server with local ChEMBL database.
 
 ## Cite
 
