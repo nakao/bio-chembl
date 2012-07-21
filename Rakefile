@@ -15,10 +15,10 @@ require 'jeweler'
 Jeweler::Tasks.new do |gem|
   # gem is a Gem::Specification... see http://docs.rubygems.org/read/chapter/20 for more options
   gem.name = "bio-chembl"
-  gem.homepage = "http://github.com/nakao/bioruby-chembl"
+  gem.homepage = "http://github.com/nakao/bio-chembl"
   gem.license = "MIT"
-  gem.summary = %Q{TODO: one-line summary of your gem}
-  gem.description = %Q{TODO: longer description of your gem}
+  gem.summary = %Q{ChEMBL REST API Client, Parser and Container}
+  gem.description = %Q{BioRuby plugin for ChEMBL REST API Client, Parser and Container classes}
   gem.email = "mitsuteru.nakao@gmail.com"
   gem.authors = ["Mitsuteru Nakao"]
   # dependencies defined in Gemfile
