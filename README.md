@@ -2,9 +2,10 @@
 
 [![Build Status](https://secure.travis-ci.org/nakao/bioruby-chembl.png)](http://travis-ci.org/nakao/bioruby-chembl)
 
-ChEMBL REST Web Service API client, parser and container classes. 
+[ChEMBL REST Web Service API](https://www.ebi.ac.uk/chembldb/ws) client, parser and container classes. 
 
 REST API Client
+
 ```# Show a web service URI
    BioChEMBL::REST::ChEMBL_URI.compound("CHEMBL1")
 
@@ -14,6 +15,7 @@ REST API Client
 ```
 
 Parser and container
+
 ```cpd = BioChEMBL::Compound.find("CHEMBL1")
    cpd.chemblId #=> "CHEMBL1"
    cpd.slimes
@@ -47,7 +49,7 @@ the source tree.
 Information on the source tree, documentation, examples, issues and
 how to contribute, see
 
-  http://github.com/nakao/bioruby-chembl
+  http://github.com/nakao/bio-chembl
 
 The BioRuby community is on IRC server: irc.freenode.org, channel: #bioruby.
 
