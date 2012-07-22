@@ -4,10 +4,9 @@
 
 [ChEMBL REST Web Service API](https://www.ebi.ac.uk/chembldb/ws) client, parser and container classes. 
 
-REST API Client
+REST API address
 
 ```ruby
-    # Show a web service URI
     BioChEMBL::REST::ChEMBL_URI.status
      #=> "http://www.ebi.ac.uk/chemblws/status/" 
     BioChEMBL::REST::ChEMBL_URI.compounds("CHEMBL1") 
@@ -16,42 +15,74 @@ REST API Client
      #=> "http://www.ebi.ac.uk/chemblws/targets/CHEMBL2477"
     BioChEMBL::REST::ChEMBL_URI.assays("CHEMBL1217643") 
      #=> "http://www.ebi.ac.uk/chemblws/assays/CHEMBL1217643"
-     
-    # GET the XML data of the ChEMBL ID CHEMBL1 
+```
+
+Get data in XML
+```ruby     
     api = BioChEMBL::REST.new
     compound = api.compounds("CHEMBL1")
     targst   = api.targets("CHEMBL2477")
     assay    = api.assays("CHEMBL1217643")
 ```
-
-Parser and container
-
+Check the server status
 ```ruby
-    # Compound
+   BioChEMBL::REST.up? #=> true/false
+```   
+REST API client, parser and container: BioChEMBL::Compound
+```ruby
     cpd = BioChEMBL::Compound.find("CHEMBL1")
     cpd.chemblId #=> "CHEMBL1"
     cpd.slimes
    
-    ba = cpd.bioactivities
-
     smiles = "CC(=O)CC(C1=C(O)c2ccccc2OC1=O)c3ccccc3"
-    cpd = BioChEMBL::Compound.find_all_by_smiles(smiles)
-    cpd = BioChEMBL::Compound.find_all_by_substructure(smiles)
-    cpd = BioChEMBL::Compound.find_all_by_similarity(smiles + "/70")
-   
-    # Target
-    target = BioChEMBL::Target.find("CHEMBL2477")
-    target.chemblId #=> "CHEMBL2477"
+    cpds = BioChEMBL::Compound.find_all_by_smiles(smiles)
+    cpds = BioChEMBL::Compound.find_all_by_substructure(smiles)
+    cpds = BioChEMBL::Compound.find_all_by_similarity(smiles + "/70")
+
+    cpd.bioactivities[0].parent_compound.chemblId #=> "CHEMBL1"
+    
+    xml = BioChEMBL::REST.new.compounds("CHEMBL1") 
+    cpd = BioChEMBL::Compound.parse_xml(xml)
+```
+REST API client, parser and container: BioChEMBL::Target
+```ruby       
+    target = BioChEMBL::Target.find("CHEMBL1785")
+    target.chemblId #=> "CHEMBL1785"
     target.targetType #=> "PROTEIN"
-   
-    # Assay
+    target.geneNames #=> "EDNRB; ETRB"
+    
+    BioChEMBL.to_array(target.geneNames) #=> ["EDNRB", "ETRB"]
+    synonyms = BioChEMBL.to_array(target.synonyms)
+    synosyms[0] #=> "Endothelin B receptor"
+
+    target = BioChEMBL::Target.find_by_uniprot("Q13936")
+    
+    target.bioactivities[0].target.chemblId #=> "CHEMBL1785"
+    
+    xml = BioChEMBL::REST.new.targets("CHEMBL1785")     
+    target = BioChEMBL::Target.parse_xml(xml)
+```
+REST API client, parser and container: BioChEMBL::Assay
+```ruby   
     assay = BioChEMBL::Assay.find("CHEMBL1217643")
     assay.chemblId #=> "CHEMBL1217643"
+    
+    assay.bioactivities[0].assay.chemblId #=> "CHEMBL1217643"
     assay.bioactivities[0].target
-    assay.bioactivities[0].assay.chemblID #=> "CHEMBL1217643"
     assay.bioactivities[0].parent_compound
+    
+    xml = BioChEMBL::REST.new.assays("CHEMBL1217643") 
+    assay = BioChEMBL::Assay.parse_xml(xml)
 ```
 
+Parser and container: BioChEMBL::Bioactivity
+```ruby
+    cpd.bioactivities[0].parent_compound.chemblId
+    target.bioactivities[0].target.chemblId
+    assay.bioactivities[0].assay.chemblId
+    assay.bioactivities[0].target
+    assay.bioactivities[0].parent_compound
+```
 Note: this software is under active development!
 
 ## Installation
