@@ -1,6 +1,6 @@
 # bio-chembl
 
-[![Build Status](https://secure.travis-ci.org/nakao/bioruby-chembl.png)](http://travis-ci.org/nakao/bioruby-chembl)
+[![Build Status](https://secure.travis-ci.org/nakao/bio-chembl.png)](http://travis-ci.org/nakao/bio-chembl)
 
 [ChEMBL REST Web Service API](https://www.ebi.ac.uk/chembldb/ws) client, parser and container classes. 
 
