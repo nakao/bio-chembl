@@ -8,13 +8,13 @@ REST API address
 
 ```ruby
     BioChEMBL::REST::ChEMBL_URI.status
-     #=> "http://www.ebi.ac.uk/chemblws/status/" 
+     #=> "https://www.ebi.ac.uk/chemblws/status/" 
     BioChEMBL::REST::ChEMBL_URI.compounds("CHEMBL1") 
-     #=> "http://www.ebi.ac.uk/chemblws/compounds/CHEMBL1"
+     #=> "https://www.ebi.ac.uk/chemblws/compounds/CHEMBL1"
     BioChEMBL::REST::ChEMBL_URI.targets("CHEMBL2477") 
-     #=> "http://www.ebi.ac.uk/chemblws/targets/CHEMBL2477"
+     #=> "https://www.ebi.ac.uk/chemblws/targets/CHEMBL2477"
     BioChEMBL::REST::ChEMBL_URI.assays("CHEMBL1217643") 
-     #=> "http://www.ebi.ac.uk/chemblws/assays/CHEMBL1217643"
+     #=> "https://www.ebi.ac.uk/chemblws/assays/CHEMBL1217643"
 ```
 
 Get data in XML
@@ -171,8 +171,9 @@ The BioRuby community is on IRC server: irc.freenode.org, channel: #bioruby.
 * BioChEMBL::Compound#image method to get the image in png.
 * BioChEMBL::Target.find_by_refesq method.
 * JSON output support (parser and address).
-* ChEMBL RDF support.
+* ChEMBL RDF integration.
 * Local REST API server with local ChEMBL database.
+* Connect Bioactivity#reference to external IDs (PubMed ID/DOI/CiteXplore)
 
 ## Cite
 
