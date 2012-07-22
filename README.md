@@ -83,6 +83,63 @@ Parser and container: BioChEMBL::Bioactivity
     assay.bioactivities[0].target
     assay.bioactivities[0].parent_compound
 ```
+
+Getting Started with Ruby
+```ruby
+    require 'bio-chembl'
+    # 1. Use UniProt accession to get target details
+    puts "
+    # =========================================================
+    # 1. Use UniProt accession to get target details
+    # =========================================================
+    ";
+    
+  	accession = "Q00534"
+  	target = BioChEMBL::Target.find_by_uniprot(accession)
+  	
+  	puts "Target description:  #{target.description}"
+  	puts "Target CHEMBLID:     #{target.chemblId}"
+  	
+  
+    # 2. Get all bioactivties for target CHEMBL_ID
+    puts "
+	# =========================================================
+	# 2. Get all bioactivties for target CHEMBL_ID
+	# =========================================================
+	";
+
+	bioactivities = target.bioactivities
+	
+	puts "Bioactivity count:           #{bioacitivites.size}"
+	puts "Bioactivity count (IC50's):  #{bioactivities.find_all {|x| x.bioactivity__type =~ /IC50/}.size}"
+
+
+	# 3. Get compounds with high binding affinity (IC50 < 100)
+	puts "
+	# =========================================================
+	# 3. Get compounds with high binding affinity (IC50 < 100)
+	# =========================================================
+	";
+
+	bioactivities.find_all {|x| x.bioactivity__type =~ /IC50/ and x.value.to_i < 100 }.each do |ba|
+	  compound = ba.parent_compound
+	  print "Compound CHEMBLID: #{compound.chemblId}"
+	  puts "  #{compound.smiles}"
+	end
+	
+	# 4. Get assay details for Ki actvity types
+	puts "
+	# =========================================================
+	# 4. Get assay details for Ki actvity types
+	# =========================================================
+	";
+	
+	bioactivities.find_all {|x| x.bioactivity__type =~ /Ki/i }.each do |ba|
+	  assay = ba.assay
+	  print "Assay CHEMBLID:  #{assay.chemblId}"
+	  puts "  #{assay.assayDescription}"
+	end
+```
 Note: this software is under active development!
 
 ## Installation
@@ -111,6 +168,7 @@ The BioRuby community is on IRC server: irc.freenode.org, channel: #bioruby.
 
 ## Todo list
 
+* BioChEMBL::Compound#image method to get the image in png.
 * BioChEMBL::Target.find_by_refesq method.
 * JSON output support (parser and address).
 * ChEMBL RDF support.
