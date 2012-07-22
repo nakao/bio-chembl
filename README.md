@@ -92,7 +92,7 @@ Getting Started with Ruby
     # =========================================================
     # 1. Use UniProt accession to get target details
     # =========================================================
-    ";
+    "
     
   	accession = "Q00534"
   	target = BioChEMBL::Target.find_by_uniprot(accession)
@@ -106,11 +106,11 @@ Getting Started with Ruby
 	# =========================================================
 	# 2. Get all bioactivties for target CHEMBL_ID
 	# =========================================================
-	";
+	"
 
 	bioactivities = target.bioactivities
 	
-	puts "Bioactivity count:           #{bioacitivites.size}"
+	puts "Bioactivity count:           #{bioactivities.size}"
 	puts "Bioactivity count (IC50's):  #{bioactivities.find_all {|x| x.bioactivity__type =~ /IC50/}.size}"
 
 
@@ -119,7 +119,7 @@ Getting Started with Ruby
 	# =========================================================
 	# 3. Get compounds with high binding affinity (IC50 < 100)
 	# =========================================================
-	";
+	"
 
 	bioactivities.find_all {|x| x.bioactivity__type =~ /IC50/ and x.value.to_i < 100 }.each do |ba|
 	  compound = ba.parent_compound
@@ -132,7 +132,7 @@ Getting Started with Ruby
 	# =========================================================
 	# 4. Get assay details for Ki actvity types
 	# =========================================================
-	";
+	"
 	
 	bioactivities.find_all {|x| x.bioactivity__type =~ /Ki/i }.each do |ba|
 	  assay = ba.assay
