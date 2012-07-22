@@ -18,17 +18,22 @@ REST API address
 ```
 
 Get data in XML
+
 ```ruby     
     api = BioChEMBL::REST.new
     compound = api.compounds("CHEMBL1")
     targst   = api.targets("CHEMBL2477")
     assay    = api.assays("CHEMBL1217643")
 ```
+
 Check the server status
+
 ```ruby
    BioChEMBL::REST.up? #=> true/false
 ```   
+
 REST API client, parser and container: BioChEMBL::Compound
+
 ```ruby
     cpd = BioChEMBL::Compound.find("CHEMBL1")
     cpd.chemblId #=> "CHEMBL1"
@@ -44,7 +49,9 @@ REST API client, parser and container: BioChEMBL::Compound
     xml = BioChEMBL::REST.new.compounds("CHEMBL1") 
     cpd = BioChEMBL::Compound.parse_xml(xml)
 ```
+
 REST API client, parser and container: BioChEMBL::Target
+
 ```ruby       
     target = BioChEMBL::Target.find("CHEMBL1785")
     target.chemblId #=> "CHEMBL1785"
@@ -62,7 +69,9 @@ REST API client, parser and container: BioChEMBL::Target
     xml = BioChEMBL::REST.new.targets("CHEMBL1785")     
     target = BioChEMBL::Target.parse_xml(xml)
 ```
+
 REST API client, parser and container: BioChEMBL::Assay
+
 ```ruby   
     assay = BioChEMBL::Assay.find("CHEMBL1217643")
     assay.chemblId #=> "CHEMBL1217643"
@@ -76,6 +85,7 @@ REST API client, parser and container: BioChEMBL::Assay
 ```
 
 Parser and container: BioChEMBL::Bioactivity
+
 ```ruby
     cpd.bioactivities[0].parent_compound.chemblId
     target.bioactivities[0].target.chemblId
@@ -85,6 +95,7 @@ Parser and container: BioChEMBL::Bioactivity
 ```
 
 Getting Started with Ruby
+
 ```ruby
     require 'bio-chembl'
     # 1. Use UniProt accession to get target details
@@ -140,6 +151,7 @@ Getting Started with Ruby
 	  puts "  #{assay.assayDescription}"
 	end
 ```
+
 Note: this software is under active development!
 
 ## Installation

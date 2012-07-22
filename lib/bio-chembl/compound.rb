@@ -5,32 +5,35 @@ module BioChEMBL
   
   # ChEMBL Compound Data Container and Parser
   #
-  # XML Data string
-  # <compound>
-  #  <chemblId>CHEMBL1</chemblId>
-  #  <knownDrug>No</knownDrug>
-  #  <medChemFriendly>Yes</medChemFriendly>
-  #  <passesRuleOfThree>No</passesRuleOfThree>
-  #  <molecularFormula>C32H32O8</molecularFormula>
-  #  <smiles>COc1ccc2[C@@H]3[C@H](COc2c1)C(C)(C)OC4=C3C(=O)C(=O)C5=C4OC(C)(C)[C@@H]6COc7cc(OC)ccc7[C@H]56</smiles>
-  #  <stdInChiKey>GHBOEFUAGSHXPO-XZOTUCIWSA-N</stdInChiKey>
-  #  <numRo5Violations>1</numRo5Violations>
-  #  <rotatableBonds>2</rotatableBonds>
-  #  <molecularWeight>544.59167</molecularWeight>
-  #  <alogp>3.627</alogp>
-  #  <acdLogp>7.669</acdLogp>
-  #  <acdLogd>7.669</acdLogd>
-  # </compound>
+  # XML Data
+  #
+  #  <compound>
+  #    <chemblId>CHEMBL1</chemblId>
+  #    <knownDrug>No</knownDrug>
+  #    <medChemFriendly>Yes</medChemFriendly>
+  #    <passesRuleOfThree>No</passesRuleOfThree>
+  #    <molecularFormula>C32H32O8</molecularFormula>
+  #    <smiles>COc1ccc2[C@@H]3[C@H](COc2c1)C(C)(C)OC4=C3C(=O)C(=O)C5=C4OC(C)(C)[C@@H]6COc7cc(OC)ccc7[C@H]56</smiles>
+  #    <stdInChiKey>GHBOEFUAGSHXPO-XZOTUCIWSA-N</stdInChiKey>
+  #    <numRo5Violations>1</numRo5Violations>
+  #    <rotatableBonds>2</rotatableBonds>
+  #    <molecularWeight>544.59167</molecularWeight>
+  #    <alogp>3.627</alogp>
+  #    <acdLogp>7.669</acdLogp>
+  #    <acdLogd>7.669</acdLogd>
+  #  </compound>
   #
   # Usage
-  # ```cpd = BioChEMBL::Compound.find("CHEMBL1")
-  #    cpd.chemblId #=> "CHEMLB1"
-  #    cpd.smiles
   #
-  #    cpd2 = BioChEMBL::Compound.find_all_by_smiles(cpd.smile)
+  #  compound = BioChEMBL::Compound.find("CHEMBL1")
+  #  compound.chemblId #=> "CHEMLB1"
+  #  compound.smiles
   #
-  #    cpd3 = BioChEMBL::Compound.parse(xml)
-  # ```
+  #  compounds = BioChEMBL::Compound.find_all_by_smiles(compound.smiles)
+  #
+  #  xml = BioChEMBL::REST.new.compounds("CHEMBL1")
+  #  compound = BioChEMBL::Compound.parse_xml(xml)
+  # 
   class Compound
     extend BioChEMBL::DataModel
 
@@ -56,8 +59,7 @@ module BioChEMBL
     # Values of all attributes are in String.
     set_attr_accessors(ATTRIBUTES)
     
-    #
-    # BioChEMBL::Compound.parse(doc)
+    # Parse the Compound data
     def self.parse(str)
       case str
       when /^</
@@ -74,8 +76,7 @@ module BioChEMBL
       end    
     end 
     
-    # XML 
-    # <compound>
+    # Parse the Compound data in XML format.
     def self.parse_xml(str)
       xml = Nokogiri::XML(str)
       this = new  
@@ -83,8 +84,8 @@ module BioChEMBL
       this
     end 
     
-    # XML
-    # <list><compound> ...
+    # Parse the Compound data list in XML format.
+    # data list: <list><compound/></list>
     def self.parse_list_xml(str)
       xmls = Nokogiri::XML(str)
       xmls.xpath("/list/compound").map do |cpd|
@@ -92,66 +93,61 @@ module BioChEMBL
       end
     end 
 
-    # JSON
+    # Parse the Compound data in JSON format.
     def self.parse_json(str)
       raise NotImplementedError
     end
 
-    # RDF
+    # Parse the Compound data in RDF format.
     def self.parse_rdf(str)
       raise NotImplementedError
     end   
     
     
-    # Compound.find(chemblId)
-    # Find a compound data by a ChEMBL ID
+    # Find the Compound data by the ChEMBL ID
     def self.find(chemblId)
       self.parse_xml(REST.new.compounds(chemblId))
     end 
 
-    # Compound.find_by_smiles(smiles)
-    # Find a compound data by a SMILES
+    # Find the Compound data (first one) by the SMILES
     def self.find_by_smiles(smiles)
       self.find_all_by_smiles(smiles).first
     end 
 
-    # Compound.find_all_by_smiles(smiles)
-    # Find compounds by a SMILES.
+    # Find the Compounds by the SMILES.
     def self.find_all_by_smiles(smiles)
       self.parse_list_xml(REST.new.compounds_smiles(smiles))
     end 
 
-    # Compound.find_by_stdinchikey(stdinchikey)
-    # Find a compound data by a StdInChiKey
+    # Find the Compound data by the StdInChiKey
     def self.find_by_stdinchikey(stdinchikey)
       self.parse_xml(REST.new.compounds_stdinchikey(stdinchikey))
     end 
 
-    # Compound.find_all_by_substructure(smiles)
-    # Substructure Search by a SMILES
+    # Find the Compounds with Substructure Search by the SMILES
     def self.find_all_by_substructure(smiles)
       self.parse_list_xml(REST.new.compounds_substructure(smiles))
     end 
     
-    # Compound.find_similarity(smiles_with_similarity)
-    # Search compounds by a SMILES with similarity
+    # Find the Compounds by the SMILES with similarity
+    # 70% similarity:  smiles + "/70"
     def self.find_all_by_similarity(smiles_with_similarity)
       self.parse_list_xml(REST.new.compounds_similarity(smiles_with_similarity))
     end 
 
     
-    # new
     def initialize(chemblId = nil)
       @chemblId = chemblId
     end 
     
-    # Resolve the compound data by given ChEMBL ID
+    # Resolve the Compound data by the ChEMBL ID
     def resolve
       resolved = self.class.find(@chemblId)
       ATTRIBUTES.each do |attr|
         eval "@#{attr} = resolved.#{attr}"
       end
     end
+    
   end
   
 end

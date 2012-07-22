@@ -10,9 +10,9 @@ class TestBioChemblChembId < Test::Unit::TestCase
   end
   
   def test_chemblid
-    assert_equal(@chemblid.class, BioChEMBL::ChEMBLID)
-    assert_equal(@chemblid, "CHEMBL1")
-    assert_equal(@chemblid.data_type, nil)
+    assert_equal(BioChEMBL::ChEMBLID, @chemblid.class)
+    assert_equal("CHEMBL1", @chemblid)
+    assert_equal(nil, @chemblid.data_type)
   end
   
   def test_invalid_chembl_id

@@ -9,31 +9,42 @@ require 'nokogiri'
 
 module BioChEMBL
       
-  # ChEMBL ID
+  # ChEMBL ID Utility
   #
-  # CHEMBL1
+  # Format
   #
-  # cid = BioChEMBL::ChEMBLID.new("CHEMBL1")
-  # cid.is_compound? #=> true
-  # cid.resolve #=> aBioChEMBL::Compound
+  #   /^CHEMBL\d+$/
+  #
+  # Usage
+  #
+  #   chemblId = BioChEMBL::ChEMBLID.new("CHEMBL1")
+  #   chemblId.is_compound? #=> true
+  #   chemblId.is_target?   #=> false
+  #   compound = chemblId.resolve
   #
   class ChEMBLID < String
     
     attr_accessor :data_type
  
+    # ChEMBL ID Validater
     def self.validate_chemblId(str)
-      unless str =~ /^CHEMBL\d+$/
-        raise Exception, "Invalid ChEMBL ID."
-      end
+      validate_chemblId(ste)
     end
-       
+    
+    # ChEMBL ID Validater
+    def validate_chemblId(str)
+      unless str =~ /^CHEMBL\d+$/
+        raise Exception, "Invalid ChEMBL ID, '#{str}'"
+      end
+    end  
+     
     def initialize(str)
       @data_type = nil
-      self.validate_chemblId(str)
+      validate_chemblId(str)
       super(str)
     end
 
-   
+    # Get the data of the ChEMBL ID
     def resolve
       case @data_type
       when Compound
@@ -44,20 +55,26 @@ module BioChEMBL
         Assay.find(self.to_s)
       else
         begin
-          Compound.find(self.to_s)
+          is_compound?
         rescue
         end 
         begin
-          Target.find(self.to_s)
+          is_target?
         rescue
         end 
         begin
-          Assay.find(self.to_s)
+          is_assay?
         rescue
+        end
+        if @data_type == nil
+          raise ArgumentError, "This ChEMBL ID is not exist, #{self.to_s}"
+        else
+          resolve
         end 
       end
     end
     
+    # Is the ChEMBL ID of Compound ?
     def is_compound?
       if @data_type == Compound
         return true
@@ -70,7 +87,8 @@ module BioChEMBL
         end 
       end
     end
-    
+
+    # Is the ChEMBL ID of Target ?
     def is_target?
       if @data_type == Assay
         return true
@@ -84,6 +102,7 @@ module BioChEMBL
       end    
     end
     
+    # Is the ChEMBL ID of Assay ?
     def is_assay?
       if @data_type == Assay
         return true

@@ -7,11 +7,15 @@ require 'nokogiri'
 #
 module BioChEMBL
 
+  # ChEMBL Website
   def self.website
     "https://www.ebi.ac.uk/chembl/"
   end
   
-  # BioChEMBL.to_array(aTarget.synonyms) #=> []
+  # Multi value utility
+  #
+  #   BioChEMBL.to_array(aTarget.synonyms) #=> []
+  #
   def self.to_array(str)
     str.to_s.split('; ')
   end
