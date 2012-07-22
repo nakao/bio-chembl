@@ -8,24 +8,47 @@ REST API Client
 
 ```ruby
     # Show a web service URI
-    BioChEMBL::REST::ChEMBL_URI.compound("CHEMBL1")
-
+    BioChEMBL::REST::ChEMBL_URI.status
+     #=> "http://www.ebi.ac.uk/chemblws/status/" 
+    BioChEMBL::REST::ChEMBL_URI.compounds("CHEMBL1") 
+     #=> "http://www.ebi.ac.uk/chemblws/compounds/CHEMBL1"
+    BioChEMBL::REST::ChEMBL_URI.targets("CHEMBL2477") 
+     #=> "http://www.ebi.ac.uk/chemblws/targets/CHEMBL2477"
+    BioChEMBL::REST::ChEMBL_URI.assays("CHEMBL1217643") 
+     #=> "http://www.ebi.ac.uk/chemblws/assays/CHEMBL1217643"
+     
     # GET the XML data of the ChEMBL ID CHEMBL1 
     api = BioChEMBL::REST.new
-    api.compound("CHEMBL1")
+    compound = api.compounds("CHEMBL1")
+    targst   = api.targets("CHEMBL2477")
+    assay    = api.assays("CHEMBL1217643")
 ```
 
 Parser and container
 
 ```ruby
+    # Compound
     cpd = BioChEMBL::Compound.find("CHEMBL1")
     cpd.chemblId #=> "CHEMBL1"
     cpd.slimes
    
     ba = cpd.bioactivities
+
+    smiles = "CC(=O)CC(C1=C(O)c2ccccc2OC1=O)c3ccccc3"
+    cpd = BioChEMBL::Compound.find_all_by_smiles(smiles)
+    cpd = BioChEMBL::Compound.find_all_by_substructure(smiles)
+    cpd = BioChEMBL::Compound.find_all_by_similarity(smiles + "/70")
    
+    # Target
+    target = BioChEMBL::Target.find("CHEMBL2477")
+    target.chemblId #=> "CHEMBL2477"
+    target.targetType #=> "PROTEIN"
+   
+    # Assay
     assay = BioChEMBL::Assay.find("CHEMBL1217643")
+    assay.chemblId #=> "CHEMBL1217643"
     assay.bioactivities[0].target
+    assay.bioactivities[0].assay.chemblID #=> "CHEMBL1217643"
     assay.bioactivities[0].parent_compound
 ```
 
