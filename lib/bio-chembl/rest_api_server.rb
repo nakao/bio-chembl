@@ -5,11 +5,17 @@ require 'nokogiri'
 
 module BioChEMBL
   class REST
-    # serv = BioChEMBL::REST::Server.new
-    #    
+    
+    # Local API server
+    #
+    # Usage
+    #   
+    #  serv = BioChEMBL::REST::Server.new(:hostname => 'localhost', :port => 3306)
+    #  serv.start
+    #   
     class Server
       def initialize
-        
+        raise NotImplementedError
       end
       
       # serv.query(:status)

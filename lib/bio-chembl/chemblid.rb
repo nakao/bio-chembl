@@ -9,7 +9,7 @@ require 'nokogiri'
 
 module BioChEMBL
       
-  # ChEMBL ID Utility
+  # ChEMBL ID utility String
   #
   # Format
   #
@@ -22,49 +22,51 @@ module BioChEMBL
   #   chemblId.is_target?   #=> false
   #   compound = chemblId.resolve
   #
+  #   BioChEMBL::ChEMBLID.validate("CHEMBL1")
+  #
   class ChEMBLID < String
     
     attr_accessor :data_type
  
-    # ChEMBL ID Validater
-    def self.validate_chemblId(str)
-      validate_chemblId(ste)
+    
+    # Checking the format of the ChEMBL ID
+    def self.valid_format?(str)
+      begin
+        self.new(str)
+        true
+      rescue Exception
+        false
+      end
     end
     
     # ChEMBL ID Validater
     def validate_chemblId(str)
-      unless str =~ /^CHEMBL\d+$/
+      if str =~ /^CHEMBL\d+$/
+        true
+      else
         raise Exception, "Invalid ChEMBL ID, '#{str}'"
       end
     end  
-     
+    private :validate_chemblId
+      
     def initialize(str)
       @data_type = nil
       validate_chemblId(str)
       super(str)
     end
 
-    # Get the data of the ChEMBL ID
+    # Get the data of the ChEMBL ID (Slow)
     def resolve
-      case @data_type
-      when Compound
-        Compound.find(self.to_s)
-      when Target
-        Target.find(self.to_s)
-      when Assay
-        Assay.find(self.to_s)
+      if @data_type    == Compound
+        return Compound.find(self.to_s)
+      elsif @data_type == Target
+        return Target.find(self.to_s)
+      elsif @data_type == Assay
+        return Assay.find(self.to_s)
       else
-        begin
-          is_compound?
-        rescue
-        end 
-        begin
-          is_target?
-        rescue
-        end 
-        begin
-          is_assay?
-        rescue
+        if    is_compound?
+        elsif is_target?
+        elsif is_assay?
         end
         if @data_type == nil
           raise ArgumentError, "This ChEMBL ID is not exist, #{self.to_s}"
@@ -74,43 +76,49 @@ module BioChEMBL
       end
     end
     
+    
     # Is the ChEMBL ID of Compound ?
     def is_compound?
       if @data_type == Compound
         return true
       else
-        if Compound.find(self.to_s)
+        begin
+          Compound.find(self)
           @data_type = Compound
           return true
-        else
+        rescue Exception
           return false  
         end 
       end
     end
 
+
     # Is the ChEMBL ID of Target ?
     def is_target?
-      if @data_type == Assay
+      if @data_type == Target
         return true
       else
-        if Assay.find(self.to_s)
-          @data_type = Assay
+        begin
+          Target.find(self)
+          @data_type = Target
           return true
-        else
+        rescue Exception
           return false  
         end 
       end    
     end
+    
     
     # Is the ChEMBL ID of Assay ?
     def is_assay?
       if @data_type == Assay
         return true
       else
-        if Assay.find(self.to_s)
+        begin
+          Assay.find(self)
           @data_type = Assay
           return true
-        else
+        rescue Exception
           return false  
         end 
       end   

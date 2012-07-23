@@ -206,6 +206,7 @@ module BioChEMBL
       easy
     end
     
+    # HTTP responce handling
     def prepare_return_value(response)
       if @debug then
         $stderr.puts "ChEMBL: #{response.inspect}"
