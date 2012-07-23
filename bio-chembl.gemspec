@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{bio-chembl}
-  s.version = "0.1.2"
+  s.version = "0.1.3"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Mitsuteru Nakao"]
-  s.date = %q{2012-07-22}
+  s.date = %q{2012-07-23}
   s.description = %q{BioRuby plugin for ChEMBL REST API Client, Parser and Container classes}
   s.email = %q{mitsuteru.nakao@gmail.com}
   s.extra_rdoc_files = [
@@ -34,7 +34,6 @@ Gem::Specification.new do |s|
     "lib/bio-chembl/chemblid.rb",
     "lib/bio-chembl/compound.rb",
     "lib/bio-chembl/datamodel.rb",
-    "lib/bio-chembl/rest_api_server.rb",
     "lib/bio-chembl/rest_client.rb",
     "lib/bio-chembl/target.rb",
     "test/helper.rb",
