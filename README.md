@@ -155,6 +155,8 @@ Getting Started with Ruby
 ```
 ActiveRecord classes.
 ```ruby
+	require 'bio-chembl/chembldb.rb'
+	
 	ActiveRecord::Base.establish_connection( {:adapter => 'mysql', 
     	                                      :host => 'localhost',
         	                                  :port => 3306,
