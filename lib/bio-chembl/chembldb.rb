@@ -9,13 +9,9 @@ module BioChEMBL
     # The ChEMBL14 ER diagram is ftp://ftp.ebi.ac.uk/pub/databases/chembl/ChEMBLdb/releases/chembl_14/chembl_14_erd.png
     #
     # Usage:
-    #
-    #   accession = "Q00534"
-    #   target = Target.find_by_protein_accession(accession)
-    #   puts "Target description:  #{target.description}"
-    #   puts "Target CHEMBLID:     #{target.chembl_id}"
-    #
     # 
+    #   require 'bio-chembl/chembldb.rb'
+    #
     #   ActiveRecord::Base.establish_connection( {:adapter => 'mysql', 
     #                                             :host => 'localhost',
     #                                             :port => 3306,
