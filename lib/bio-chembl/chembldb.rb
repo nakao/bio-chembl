@@ -64,9 +64,9 @@ class Activity < ActiveRecord::Base
   belongs_to :assay
   belongs_to :doc
   belongs_to :record, 
-             :class_name => :CompoundRecord, :foreign_key => :record_id
+    :class_name => :CompoundRecord, :foreign_key => :record_id
   belongs_to :molecule, 
-             :class_name => :Molecule, :foreign_key => :molregno
+    :class_name => :Molecule, :foreign_key => :molregno
   
 end
 
@@ -77,8 +77,8 @@ class AssayType < ActiveRecord::Base
   attr_accessible :assay_type, 
                   :assay_desc
 
-  has_many :assays, 
-           :foreign_key => :assay_type
+  has_many :assays,           
+    :foreign_key => :assay_type
 end
 
 
@@ -97,21 +97,21 @@ class Assay < ActiveRecord::Base
                   :assay_strain
 
   belongs_to :assay_type_,  
-             :class_name => 'AssayType', :foreign_key => :assay_type
+    :class_name => 'AssayType', :foreign_key => :assay_type
   belongs_to :doc
   belongs_to :src, 
-             :class_name => 'Source'
+    :class_name => 'Source'
   belongs_to :chembl_id_lookup, 
-             :class_name => 'ChemblIdLookup', :foreign_key => :chembl_id
+    :class_name => 'ChemblIdLookup', :foreign_key => :chembl_id
   belongs_to :assay_tax, 
-             :foreign_key => :assay_tax_id, :class_name => 'OrganismClass', :primary_key => :tax_id 
+    :foreign_key => :assay_tax_id, :class_name => 'OrganismClass', :primary_key => :tax_id 
 
   has_many :activities
 
   # assays.assay_id =  assay2taret.assay_id AND assay2target.tid = target_dictionary.tid
   has_and_belongs_to_many :targets, 
-                          :join_table => :assay2target, 
-                          :class_name => 'Target', :association_foreign_key => :tid
+    :join_table => :assay2target,    
+    :class_name => 'Target', :association_foreign_key => :tid
 end
 
 
@@ -128,13 +128,13 @@ class Assay2target < ActiveRecord::Base
 
   belongs_to :assay
   belongs_to :target, 
-             :class_name => 'Target', :foreign_key => :tid
-  belongs_to :relationship_type_, 
-             :class_name => 'RelationshipType', :foreign_key => :relationship_type
-  belongs_to :confidence_score_lookup_, 
-             :class_name => 'ConfidenceScoreLookup', :foreign_key => :confidence_score
-  belongs_to :curation_lookup, 
-             :foreign_key => :curated_by
+    :class_name => 'Target', :foreign_key => :tid
+  belongs_to :relationship_type_,             
+    :class_name => 'RelationshipType', :foreign_key => :relationship_type
+  belongs_to :confidence_score_lookup_,      
+    :class_name => 'ConfidenceScoreLookup', :foreign_key => :confidence_score
+  belongs_to :curation_lookup,   
+    :foreign_key => :curated_by
 end
 
 
@@ -154,8 +154,8 @@ class AtcClassification < ActiveRecord::Base
                   :level4_description
                   
   has_many :defined_daily_dose, 
-           :foreign_key => :atc_code, 
-           :class_name => 'DefinedDailyDose',:primary_key => :level5
+    :foreign_key => :atc_code,   
+    :class_name => 'DefinedDailyDose',:primary_key => :level5
 end
 
 
@@ -168,17 +168,17 @@ class ChemblIdLookup < ActiveRecord::Base
                   :status
                   
   has_one :assay,    
-          :primary_key => :entity_id, 
-          :class_name => 'Assay' ,             :foreign_key => :assay_id 
+    :primary_key => :entity_id, 
+    :class_name => 'Assay' ,   :foreign_key => :assay_id 
   has_one :target,   
-          :primary_key => :entity_id, 
-          :class_name => 'Target',   :foreign_key => :tid      
+    :primary_key => :entity_id, 
+    :class_name => 'Target',   :foreign_key => :tid      
   has_one :compound, 
-          :primary_key => :entity_id, 
-          :class_name => 'Molecule', :foreign_key => :molregno 
+    :primary_key => :entity_id, 
+    :class_name => 'Molecule', :foreign_key => :molregno 
   has_one :document, 
-          :primary_key => :entity_id, 
-          :class_name => 'Doc',                :foreign_key => :doc_id
+    :primary_key => :entity_id, 
+    :class_name => 'Doc',      :foreign_key => :doc_id
   
   def entity
     # eval entity_type.downcase
@@ -216,7 +216,7 @@ class CompoundProperty < ActiveRecord::Base
                   :full_mwt 
 
   belongs_to :molecule, 
-             :class_name => 'Molecule', :foreign_key => :molregno
+    :class_name => 'Molecule', :foreign_key => :molregno
 end
 
 
@@ -251,7 +251,7 @@ class CompoundStructure < ActiveRecord::Base
                   :molformula
 
   belongs_to :molecule, 
-             :class_name => 'Molecule', :foreign_key => :molregno
+    :class_name => 'Molecule', :foreign_key => :molregno
 end
 
 
@@ -263,7 +263,7 @@ class ConfidenceScoreLookup < ActiveRecord::Base
                   :target_mapping
 
   belongs_to :assay2target,
-             :class_name => 'Assay2target', :foreign_key => :confidence_score
+    :class_name => 'Assay2target', :foreign_key => :confidence_score
 end
 
 
@@ -274,7 +274,7 @@ class CurationLookup < ActiveRecord::Base
                   :decription
                   
   has_many :assay2targets, 
-           :class_name => 'Assay2target', :foreign_key => :curated_by
+    :class_name => 'Assay2target', :foreign_key => :curated_by
 end
 
 
@@ -289,8 +289,8 @@ class DefinedDailyDose < ActiveRecord::Base
                   :ddd_id
                   
   belongs_to :atc_classification, 
-             :foreign_key => :atc_code,
-             :class_name => 'AtcClassification', :primary_key => :level5
+    :foreign_key => :atc_code,
+    :class_name => 'AtcClassification', :primary_key => :level5
 end
 
 
@@ -309,12 +309,12 @@ class Doc < ActiveRecord::Base
                   :doc_type
 
   belongs_to :chembl_id_lookup, 
-             :class_name => 'ChemblIdLookup', :foreign_key => :chembl_id
+    :class_name => 'ChemblIdLookup', :foreign_key => :chembl_id
     
-  has_many :assays, 
-           :class_name => 'Assay'
-  has_many :compound_records, 
-           :class_name => 'CompoundRecord'
+  has_many :assays,  
+    :class_name => 'Assay'
+  has_many :compound_records,  
+    :class_name => 'CompoundRecord'
 end
 
 
@@ -327,8 +327,8 @@ class Formulation < ActiveRecord::Base
                   :molregno
 
   belongs_to :product
-  belongs_to :molecule, 
-             :class_name => 'Molecule', :foreign_key => :molregno
+  belongs_to :molecule,
+    :class_name => 'Molecule', :foreign_key => :molregno
 end
 
 
@@ -393,12 +393,12 @@ class MoleculeHierarchy < ActiveRecord::Base
                   :parent_molregno,
                   :active_molregno
 
-  belongs_to :molecule,
-             :class_name => 'Molecule', :foreign_key => :molregno
+  belongs_to :molecule,  
+    :class_name => 'Molecule', :foreign_key => :molregno
   belongs_to :parent, 
-             :class_name => 'Molecule', :foreign_key => :parent_molregno
-  belongs_to :active, 
-             :class_name => 'Molecule', :foreign_key => :active_molregno
+    :class_name => 'Molecule', :foreign_key => :parent_molregno
+  belongs_to :active,
+    :class_name => 'Molecule', :foreign_key => :active_molregno
 end
 
 
@@ -411,7 +411,7 @@ class MoleculeSynonym < ActiveRecord::Base
                   :research_stem
 
   belongs_to :molecule,
-             :class_name => 'Molecule', :foreign_key => :molregno  
+    :class_name => 'Molecule', :foreign_key => :molregno  
   has_many :research_codes,
     :class_name => 'ResearchCode', :primary_key => :research_stem, :foreign_key => :stem             
 end
@@ -561,9 +561,9 @@ class Target < ActiveRecord::Base
     :class_name => 'TargetClass', :foreign_key => :tid
     
   # assays.assay_id =  assay2taret.assay_id AND assay2target.tid = target_dictionary.tid
-  has_and_belongs_to_many :assays, 
-                          :join_table => :assay2target, :foreign_key => :tid,
-                          :class_name => 'Assay', :association_foreign_key => :assay_id
+  has_and_belongs_to_many :assays,   
+    :join_table => :assay2target, :foreign_key => :tid,
+    :class_name => 'Assay', :association_foreign_key => :assay_id
 end
 
 
