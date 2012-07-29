@@ -2,7 +2,9 @@
 
 [![Build Status](https://secure.travis-ci.org/nakao/bio-chembl.png)](http://travis-ci.org/nakao/bio-chembl)
 
+ChEMBL classes:
 [ChEMBL REST Web Service API](https://www.ebi.ac.uk/chembldb/ws) client, parser and container classes. 
+AcriveRecord classes for ChEMBL14 mysql dump.
 
 REST API address
 
@@ -151,7 +153,39 @@ Getting Started with Ruby
 	  puts "  #{assay.assayDescription}"
 	end
 ```
-
+ActiveRecord classes.
+```ruby
+	ActiveRecord::Base.establish_connection( {:adapter => 'mysql', 
+    	                                      :host => 'localhost',
+        	                                  :port => 3306,
+            	                              :username => 'chembl', 
+                	                          :password => '', 
+                    	                      :socket => '/tmp/mysql.sock',
+                        	                  :database => 'chembl_14'} )
+                        	                  
+  	accession = "Q00534"
+	target = BioChEMBL::ChEMBLDB::Target.find_by_protein_accession(accession)
+	puts "Target description:  #{target.description}"
+	puts "Target CHEMBLID:     #{target.chembl_id}"
+	
+	# ChEMBL ID
+	chembl_id = "CHEMBL1"
+	chemblid = BioChEMBL::ChEMBLDB::ChemblIdLookup.find(chembl_id)
+	chemblid.entity_type 
+	compound = chemblid.entity
+	
+	# Compound
+	compound = BioChEMBL::ChEMBLDB::Molecule.find_by_chembl_id(chembl_id)
+	activities = compound.compound_records.map {|x| x.activities }.flatten
+	
+	# Target
+	target = BioChEMBL::ChEMBLDB::Target.find_by_chembl_id(chembl_id)
+	activities = target.assays.map {|x| x.activities }.flatten
+	
+	# Assay
+	assay = BioChEMBL::ChEMBLDB::Assay.find_by_chembl_id(chembl_id)
+	activities = assay.activities
+```
 Note: this software is under active development!
 
 ## Installation
@@ -186,6 +220,7 @@ The BioRuby community is on IRC server: irc.freenode.org, channel: #bioruby.
 * ChEMBL RDF integration.
 * Local REST API server with local ChEMBL database.
 * Connect Bioactivity#reference to external IDs (PubMed ID/DOI/CiteXplore)
+* More high level methods for the ActiveRecord classes
 
 ## Cite
 
