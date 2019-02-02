@@ -13,6 +13,6 @@ group :development do
   gem "bio", ">= 1.4.2"
   gem "rdoc", "~> 3.12"
   gem "curb", ">= 0"
-  gem "nokogiri", "~> 1.5.5"
+  gem "nokogiri", "~> 1.8.5"
   gem "activerecord", ">=3.2.6"
 end
