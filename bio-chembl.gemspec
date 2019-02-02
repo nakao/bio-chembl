@@ -68,7 +68,7 @@ Gem::Specification.new do |s|
       s.add_development_dependency(%q<bio>, [">= 1.4.2"])
       s.add_development_dependency(%q<rdoc>, ["~> 3.12"])
       s.add_development_dependency(%q<curb>, [">= 0"])
-      s.add_development_dependency(%q<nokogiri>, ["~> 1.5.5"])
+      s.add_development_dependency(%q<nokogiri>, ["~> 1.8.5"])
     else
       s.add_dependency(%q<shoulda>, [">= 0"])
       s.add_dependency(%q<rdoc>, ["~> 3.12"])
